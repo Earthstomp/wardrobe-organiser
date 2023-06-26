@@ -8,9 +8,9 @@ from django.template.defaultfilters import slugify
 class Clothing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    image = CloudinaryField('Image', overwrite=True, format='jpg')
+    image = CloudinaryField('Image', overwrite=True, format='jpg', blank=True)
     colour = models.CharField(max_length=64)  # options
     condition = models.CharField(max_length=64)  # options
     purchasedDate = models.DateTimeField()
@@ -29,4 +29,4 @@ class Clothing(models.Model):
 
         self.slug = to_assign
 
-        super().save(**args, **kwargs)
+        super().save(*args, **kwargs)
