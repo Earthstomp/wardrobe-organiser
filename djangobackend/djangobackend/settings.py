@@ -11,18 +11,21 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import dotenv
 import cloudinary
 import os
+
+# Automatically load env variables
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# type command 'source .env' to load env variables in
 cloudinary.config(
     cloud_name=os.environ.get('CLOUD_NAME'), api_key=os.environ.get('CLOUD_API_KEY'), api_secret=os.environ.get('CLOUD_API_SECRET')
 )
 
-print("hello")
-print(os.environ.get('CLOUD_NAME')), os.environ.get('CLOUD_API_KEY')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -88,7 +91,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

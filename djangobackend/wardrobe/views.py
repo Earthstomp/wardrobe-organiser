@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics, response
+from rest_framework import generics, response, status
 from .models import Clothing
 from .serializers import ClothingSerializer
 
@@ -20,3 +20,5 @@ class ClothingDetailAPIView(generics.ListAPIView):
 
         if query_set:
             return response.Response(self.serializer_class(query_set).data)
+
+        return response.Response('Not found', status=status.HTTP_404_NOT_FOUND)
