@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { data } from 'autoprefixer';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({ data, done }) {
+export default function Home({ data, error }) {
   console.log('data: >> ', data);
-  console.log('data: >> ', done);
+  console.log('error: >> ', error);
 
   return (
     <>
@@ -13,7 +14,7 @@ export default function Home({ data, done }) {
       {data.map((element) =>
         <div key={element.slug}>
           <div>
-            <img src={"https://res.cloudinary.com/dt2nnnvpe/" + element.image} height={120} width={120} alt="Clothing Image" />
+            <Image src={"https://res.cloudinary.com/dt2nnnvpe/" + element.image} height={120} width={120} alt="Clothing Image" />
           </div>
           <div>
             <h1>{element.title}</h1>
@@ -27,14 +28,29 @@ export default function Home({ data, done }) {
 
 // fetches at build time
 export async function getStaticProps() {
-  const response = await fetch("http://localhost:8000/api/clothes")
+  let data = []
+  let error = null
 
-  const data = await response.json()
+  try {
+    const response = await fetch("http://localhost:8000/apiclothes")
+
+    data = await response.json()
+
+  } catch (err) {
+    console.log('err :>> ', err)
+    error = err
+  }
+
+  if (!data.length) {
+    return {
+      notFound: true
+    }
+  }
 
   return {
     props: {
       data: data,
-      done: true,
+      error: error,
     }
   }
 }
